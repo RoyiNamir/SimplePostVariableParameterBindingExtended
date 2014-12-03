@@ -14,23 +14,23 @@ Consider this code :
       //...
     }
     
-This method gets its param from the body.
+This method gets its parameters from the body via POST.
 
-In WebAPI you can't get (nativly) multiple form parameters `[frombody]`.
+In WebAPI you can't(!) get (nativly) multiple form parameters  via `[frombody]`.
 
-Rick started doing it :
-http://weblog.west-wind.com/posts/2012/Sep/11/Passing-multiple-simple-POST-Values-to-ASPNET-Web-API
+Rick started doing it : http://weblog.west-wind.com/posts/2012/Sep/11/Passing-multiple-simple-POST-Values-to-ASPNET-Web-API
 
-But it didnt support nullables types.
+But it didn't support nullables types.
 
 So  you couldn't do : 
 
+   
    public HttpResponseMessage Login(int? MyInt,int A)
    { 
    //...
    }
    
-Also the code didn't support if a person suddnley  sends JSON. there were no code for this : 
+Also ,  it didn't support a situation where a person  sends JSON. there was no code for this situation : 
 
 
     // only read if there's content and it's form data
@@ -47,18 +47,24 @@ Also the code didn't support if a person suddnley  sends JSON. there were no cod
   
   
   
-So now you can send JSON to the controller both in `application/x-form-urlencoded` (`a=1&b=2&c=`) and also via `application/json`
+So now you can(!) send JSON to the controller both via  `application/x-form-urlencoded` (`a=1&b=2&c=`) and also via `application/json`
 `{"a":1,"b":2}` or `{"a":1,"b":2,"c":null}`
+
+
+NB
 
 webAPI can work with JSON (obviously) , but you need  : 
 
-   Login(NyLoginParams mlp)
-   {
-    /...
-   }
+    Login(NyLoginParams mlp)
+    {
+     /...
+    }
+
+Assuming you need to expose Many existsing services   which doesnt has `MyMethodParams` class - you'll need this code .
 
 
-So my class also support JSON & Nullables!
+
+
 
 
 
