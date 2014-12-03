@@ -1,5 +1,5 @@
-SimplePostVariableParameterBinding
-==================================
+SimplePostVariableParameterBindingExtended
+==========================================
 
 Why do I need it ? 
 
