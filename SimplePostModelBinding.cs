@@ -137,14 +137,14 @@ public class SimplePostVariableParameterBinding : HttpParameterBinding
         else if (Descriptor.ParameterType == typeof(bool))
         {
             value = false;
-            if (stringValue == "true" || stringValue == "on" || stringValue == "1") value = true;
+            if (stringValue.Equals("true", StringComparison.OrdinalIgnoreCase) || stringValue.Equals("on", StringComparison.OrdinalIgnoreCase) || stringValue == "1") value = true;
         }
         else if (Descriptor.ParameterType == typeof(bool?))
         {
             value = false;
             if (string.IsNullOrWhiteSpace(stringValue)) value = (bool?)null;
             else
-                if (stringValue == "true" || stringValue == "on" || stringValue == "1") value = true;
+                if (stringValue.Equals("true", StringComparison.OrdinalIgnoreCase) || stringValue.Equals("on", StringComparison.OrdinalIgnoreCase) || stringValue == "1") value = true;
         }
         else value = stringValue;
 
