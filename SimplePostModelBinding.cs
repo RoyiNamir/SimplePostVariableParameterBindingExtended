@@ -177,11 +177,12 @@ public class SimplePostVariableParameterBinding : HttpParameterBinding
                     {
                         result = request.Content.ReadAsStringAsync().Result;
                         request.Properties.Add(MultipleBodyParametersRaw, result);
-                        var values = JsonConvert.DeserializeObject<Dictionary<string, string>>(result.ToString());
+
+                        var values = JsonConvert.DeserializeObject<Dictionary<string, object>>(result.ToString());
                         result = values.Aggregate(new NameValueCollection(),
                                                   (seed, current) =>
                                                   {
-                                                      seed.Add(current.Key, current.Value);
+                                                      seed.Add(current.Key, current.Value == null ? "" : current.Value.ToString());
                                                       return seed;
                                                   });
 
