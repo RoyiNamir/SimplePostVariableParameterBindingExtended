@@ -83,6 +83,10 @@ public class SimplePostVariableParameterBinding : HttpParameterBinding
     /// <returns></returns>
     public static HttpParameterBinding HookupParameterBinding(HttpParameterDescriptor descriptor)
     {
+        //To see is it mark the flag
+        if (descriptor.ActionDescriptor.GetCustomAttributes<System.Web.Http.MultiParameterSupportAttribute>().Count <= 0)
+            return null;
+
         var supportedMethods = descriptor.ActionDescriptor.SupportedHttpMethods;
 
         // Only apply this binder on POST and PUT operations
@@ -133,14 +137,14 @@ public class SimplePostVariableParameterBinding : HttpParameterBinding
         else if (Descriptor.ParameterType == typeof(bool))
         {
             value = false;
-            if (stringValue == "true" || stringValue == "on" || stringValue == "1") value = true;
+            if (stringValue.Equals("true", StringComparison.OrdinalIgnoreCase) || stringValue.Equals("on", StringComparison.OrdinalIgnoreCase) || stringValue == "1") value = true;
         }
         else if (Descriptor.ParameterType == typeof(bool?))
         {
             value = false;
             if (string.IsNullOrWhiteSpace(stringValue)) value = (bool?)null;
             else
-                if (stringValue == "true" || stringValue == "on" || stringValue == "1") value = true;
+                if (stringValue.Equals("true", StringComparison.OrdinalIgnoreCase) || stringValue.Equals("on", StringComparison.OrdinalIgnoreCase) || stringValue == "1") value = true;
         }
         else value = stringValue;
 
@@ -173,11 +177,12 @@ public class SimplePostVariableParameterBinding : HttpParameterBinding
                     {
                         result = request.Content.ReadAsStringAsync().Result;
                         request.Properties.Add(MultipleBodyParametersRaw, result);
-                        var values = JsonConvert.DeserializeObject<Dictionary<string, string>>(result.ToString());
+
+                        var values = JsonConvert.DeserializeObject<Dictionary<string, object>>(result.ToString());
                         result = values.Aggregate(new NameValueCollection(),
                                                   (seed, current) =>
                                                   {
-                                                      seed.Add(current.Key, current.Value);
+                                                      seed.Add(current.Key, current.Value == null ? "" : current.Value.ToString());
                                                       return seed;
                                                   });
 
