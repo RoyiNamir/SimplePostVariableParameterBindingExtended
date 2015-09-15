@@ -83,6 +83,10 @@ public class SimplePostVariableParameterBinding : HttpParameterBinding
     /// <returns></returns>
     public static HttpParameterBinding HookupParameterBinding(HttpParameterDescriptor descriptor)
     {
+        //To see is it mark the flag
+        if (descriptor.ActionDescriptor.GetCustomAttributes<System.Web.Http.MultiParameterSupportAttribute>().Count <= 0)
+            return null;
+
         var supportedMethods = descriptor.ActionDescriptor.SupportedHttpMethods;
 
         // Only apply this binder on POST and PUT operations
