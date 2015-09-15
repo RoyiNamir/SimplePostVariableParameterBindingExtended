@@ -1,37 +1,31 @@
 SimplePostVariableParameterBindingExtended
 ==========================================
 
-Why do I need it ? 
+Why do we need it? 
 
 Consider this code : 
 
-
     [HttpPost]
-    [AllowAnonymous]
-    [ActionName("Login")]
+	[MultiParameterSupport]
     public HttpResponseMessage Login(int MasterEntity, string username, string password, string userAgent)
     {
-      //...
+		//...logics...
     }
     
 This method gets its parameters from the body via POST.
 
 In WebAPI you can't(!) get (nativly) multiple form parameters  via `[frombody]`.
-
 Rick started doing it : http://weblog.west-wind.com/posts/2012/Sep/11/Passing-multiple-simple-POST-Values-to-ASPNET-Web-API
 
 But it didn't support nullables types.
-
-So  you couldn't do : 
-
+So you couldn't do : 
    
     public HttpResponseMessage Login(int? MyInt,int A)
     { 
-    //...
+		//...logics...
     }
    
-Also ,  it didn't support a situation where a person  sends JSON. there was no code for this situation : 
-
+Also, it didn't support a situation where a person sends JSON. there was no code for this situation: 
 
     // only read if there's content and it's form data
     if (contentType == null || contentType.MediaType != "application/x-www-form-urlencoded")
