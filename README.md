@@ -37,24 +37,21 @@ Also, it didn't support a situation where a person sends JSON. there was no code
     {
         // parsing the string like firstname=Hongmei&lastname=ASDASD            
         result = request.Content.ReadAsFormDataAsync().Result;
-    }
-  
-  
+    }  
   
 So now you can(!) send JSON to the controller both via  `application/x-form-urlencoded` (`a=1&b=2&c=`) and also via `application/json`
 `{"a":1,"b":2}` or `{"a":1,"b":2,"c":null}`
 
 
 NB
-
-webAPI can work with JSON (obviously) , but you need  : 
+webAPI can work with JSON (obviously) , but you need: 
 
     Login(NyLoginParams mlp)
     {
-     /...
+		//...logics...
     }
 
-Assuming you need to expose Many existsing services   which doesnt has `MyMethodParams` class - you'll need this code .
+Assuming you need to expose Many existsing services which doesnt has `MyMethodParams` class - you'll need this code .
 
 
 
